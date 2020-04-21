@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, Integer, DateTime, ForeignKey, Boolean, Text
+from sqlalchemy import Column, Integer, Date, DateTime, ForeignKey, Boolean, Text
 from sqlalchemy.orm import relationship
 
 
@@ -16,6 +16,7 @@ class Task(Model):
   created = Column(DateTime, default=datetime.utcnow)
   creator_id = Column(Integer, ForeignKey("User.id"))
   text = Column(Text, default="")
+  due_date = Column(Date)
   closed = Column(Boolean, default=False)
   deleted = Column(Boolean, default=False)
   assignee_id = Column(Integer, ForeignKey("User.id"))
@@ -51,6 +52,7 @@ class TaskLogEntry(Model):
   id = Column(Integer, primary_key=True)
   task_id = Column(Integer, ForeignKey("Task.id"))
   user_id = Column(Integer, ForeignKey("User.id"))
+  date = Column(DateTime, default=datetime.utcnow)
   action_flag = Column(String)
   text = Column(Text, default="")
   
