@@ -64,4 +64,5 @@ class TaskAttachment(Model):
   id = Column(Integer, primary_key=True)
   task_id = Column(Integer, ForeignKey("Task.id"))
   comment_id = Column(Integer, ForeignKey("TaskComment.id"))
-  
+  description = Column(Text)
+  path = Column(Text)
