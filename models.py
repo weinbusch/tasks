@@ -22,8 +22,8 @@ class Task(Model):
   deleted = Column(Boolean, default=False)
   assignee_id = Column(Integer, ForeignKey("User.id"))
   
-  creator = relationship("User", foreign_keys=[creator_id], back_populates="tasks_created")
-  assignee = relationship("User", foreign_keys=[assignee_id], back_populates="tasks_assigned")
+  creator = relationship("User", foreign_keys=[creator_id], backref="tasks_created")
+  assignee = relationship("User", foreign_keys=[assignee_id], backref="tasks_assigned")
 
   comments = relationship("TaskComment", backref="task")
   log = relationship("TaskLogEntry", backref="task")
