@@ -21,6 +21,9 @@ class Task(Model):
   closed = Column(Boolean, default=False)
   deleted = Column(Boolean, default=False)
   assignee_id = Column(Integer, ForeignKey("User.id"))
+  
+  creator = relationship("User", foreign_keys=[creator_id], back_populates="tasks_created")
+  assignee = relationship("User", foreign_keys=[assignee_id], back_populates="tasks_assigned")
 
   comments = relationship("TaskComment", backref="task")
   log = relationship("TaskLogEntry", backref="task")
@@ -36,6 +39,8 @@ class TaskComment(Model):
   author_id = Column(Integer, ForeignKey("User.id"))
   created = Column(DateTime, default=datetime.utcnow)
   text = Column(Text, default="")
+  
+  author = relationship("User")
   
   attachments = relationship("TaskAttachment", backref="comment")
 
@@ -56,6 +61,8 @@ class TaskLogEntry(Model):
   date = Column(DateTime, default=datetime.utcnow)
   action_flag = Column(String)
   text = Column(Text, default="")
+  
+  user = relationship("User")
   
   def get_message(self):
       ''' 
