@@ -1,3 +1,4 @@
+import json
 import datetime
 
 from sqlalchemy import Column, Integer, Date, DateTime, ForeignKey, Boolean, Text
@@ -55,6 +56,29 @@ class TaskLogEntry(Model):
   date = Column(DateTime, default=datetime.utcnow)
   action_flag = Column(String)
   text = Column(Text, default="")
+  
+  def get_message(self):
+      ''' 
+      Do something similar as in django.contrib.admin.models.LogEntry.get_change_message 
+      
+      Messages can be encoded as JSON. For example,
+      
+      {
+        "format_string": "assigned {assignee} to task",
+        "assignee": {
+          "model": "User",
+          "id": 1
+        }
+      }
+      '''
+      if self.text and self.text[0] == "{":  
+          # do not handle list of messages for now, instead assume that message is encoded as a json dictionary
+          
+          data = json.loads(self.text)  # do not handle exception for now ...
+          
+      else:
+          message = self.text
+      return message
   
 
 class TaskAttachment(Model):
