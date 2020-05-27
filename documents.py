@@ -23,10 +23,13 @@ class File(Base):
     created = Column(DateTime, default=datetime.utcnow())
     path = Column(String)
     
+    def open(self, mode="rb"):
+        return open(self.path, mode)
+    
     def read(self):
-        with open(self.path, 'r') as f:
+        with self.open() as f:
             return f.read()
             
     def write(self, data):
-        with open(self.path, 'wb') as f:
+        with self.open('wb') as f:
             f.write(data)
